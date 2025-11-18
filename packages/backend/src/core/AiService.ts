@@ -35,6 +35,16 @@ export class AiService {
 	) {
 	}
 
+	/**
+	 * Detect sensitive content in an image.
+	 * 
+	 * If an external proxy URL is configured (sensitiveMediaDetectionProxyUrl),
+	 * this method will use the external service. Otherwise, it will use the
+	 * built-in nsfwjs model.
+	 * 
+	 * @param source - Path to the image file or a Buffer containing the image data
+	 * @returns Array of predictions or null if detection fails
+	 */
 	@bindThis
 	public async detectSensitive(source: string | Buffer): Promise<nsfw.PredictionType[] | null> {
 		// If external service is configured, use it
@@ -78,6 +88,16 @@ export class AiService {
 		}
 	}
 
+	/**
+	 * Detect sensitive content using an external proxy service.
+	 * 
+	 * Sends the image as base64-encoded data to the external service
+	 * and expects a response in the same format as nsfwjs.
+	 * 
+	 * @param source - Path to the image file or a Buffer containing the image data
+	 * @returns Array of predictions or null if the request fails
+	 * @see docs/sensitive-media-detection-api.md for API contract details
+	 */
 	@bindThis
 	private async detectSensitiveWithProxy(source: string | Buffer): Promise<nsfw.PredictionType[] | null> {
 		try {
