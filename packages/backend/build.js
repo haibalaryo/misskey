@@ -26,6 +26,7 @@ const options = {
 		'*.html',
 		'class-transformer',
 		'class-validator',
+		'@sentry/*',
 		'@nestjs/websockets/socket-module',
 		'@nestjs/microservices/microservices-module',
 		'@nestjs/microservices',
@@ -34,6 +35,10 @@ const options = {
 		'mock-aws-s3',
 		'aws-sdk',
 		'nock',
+		'sharp',
+		'jsdom',
+		're2',
+		'@napi-rs/canvas',
 	],
 };
 
