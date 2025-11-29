@@ -577,7 +577,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			const linkEls = Array.from(doc.getElementsByTagName('link'));
 
 			const includesMyLink = aEls.some(a => a.attributes.href === myLink);
-			const includesRelMeLinks = [...aEls, ...linkEls].some(link => link.attributes.rel === 'me' && link.attributes.href === myLink);
+			const includesRelMeLinks = [...aEls, ...linkEls].some(link => link.attributes.rel?.split(/\s+/).includes('me') && link.attributes.href === myLink);
 
 			if (includesMyLink || includesRelMeLinks) {
 				await this.userProfilesRepository.createQueryBuilder('profile').update()
