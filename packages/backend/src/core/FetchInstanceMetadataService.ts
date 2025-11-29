@@ -244,9 +244,9 @@ export class FetchInstanceMetadataService {
 			// https://github.com/misskey-dev/misskey/pull/8220/files/0ec4eba22a914e31b86874f12448f88b3e58dd5a#r796487559
 			const href =
 				[
-					links.find(link => link.attributes.rel === 'apple-touch-icon-precomposed')?.attributes.href,
-					links.find(link => link.attributes.rel === 'apple-touch-icon')?.attributes.href,
-					links.find(link => link.attributes.rel === 'icon')?.attributes.href,
+					links.find(link => link.attributes.rel?.split(/\s+/).includes('apple-touch-icon-precomposed'))?.attributes.href,
+					links.find(link => link.attributes.rel?.split(/\s+/).includes('apple-touch-icon'))?.attributes.href,
+					links.find(link => link.attributes.rel?.split(/\s+/).includes('icon'))?.attributes.href,
 				]
 					.find(href => href);
 
