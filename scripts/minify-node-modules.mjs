@@ -33,20 +33,9 @@ const MIN_FILE_SIZE_BYTES = 50;
 const esbuildOptions = {
 	loader: 'js',
 	minifyWhitespace: true,
-	// Keep identifiers to preserve compatibility with reflection-based code
-	minifyIdentifiers: false,
-	minifySyntax: false,
+	minifyIdentifiers: true,
+	minifySyntax: true,
 };
-
-// Skip minification in development mode unless explicitly enabled
-const isDevelopment = process.env.NODE_ENV === 'development';
-const shouldMinify = process.env.MISSKEY_MINIFY_NODE_MODULES === 'true' ||
-	(process.env.MISSKEY_MINIFY_NODE_MODULES !== 'false' && !isDevelopment);
-
-if (!shouldMinify) {
-	console.log('Skipping node_modules minification (development mode or disabled via MISSKEY_MINIFY_NODE_MODULES=false)');
-	process.exit(0);
-}
 
 console.log('Minifying node_modules JavaScript files...');
 
@@ -74,6 +63,7 @@ const jsFiles = await glob('**/*.js', {
 		// Ignore TypeScript declaration files that might be named .js
 		'**/*.d.js',
 		// Ignore workspace package symlinks
+		'node_modules/i18n/**',
 		'node_modules/backend/**',
 		'node_modules/frontend/**',
 		'node_modules/frontend-embed/**',
