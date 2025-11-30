@@ -25,6 +25,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
+// Configuration constants
+const BATCH_SIZE = 100;
+const MIN_FILE_SIZE_BYTES = 50;
+
+/** @type {import('esbuild').TransformOptions} */
+const esbuildOptions = {
+	loader: 'js',
+	minifyWhitespace: true,
+	// Keep identifiers to preserve compatibility with reflection-based code
+	minifyIdentifiers: false,
+	minifySyntax: false,
+};
+
 // Skip minification in development mode unless explicitly enabled
 const isDevelopment = process.env.NODE_ENV === 'development';
 const shouldMinify = process.env.MISSKEY_MINIFY_NODE_MODULES === 'true' ||
@@ -78,7 +91,6 @@ const jsFiles = await glob('**/*.js', {
 console.log(`Found ${jsFiles.length} JavaScript files to minify`);
 
 // Process files in parallel batches for efficiency
-const BATCH_SIZE = 100;
 let processed = 0;
 let errors = 0;
 
@@ -90,18 +102,12 @@ for (let i = 0; i < jsFiles.length; i += BATCH_SIZE) {
 			const content = await fs.readFile(filePath, 'utf-8');
 
 			// Skip empty files or very small files (likely not worth minifying)
-			if (content.length < 50) {
+			if (content.length < MIN_FILE_SIZE_BYTES) {
 				processed++;
 				return;
 			}
 
-			const result = await esbuild.transform(content, {
-				loader: 'js',
-				minifyWhitespace: true,
-				// Keep identifiers to preserve compatibility with reflection-based code
-				minifyIdentifiers: false,
-				minifySyntax: false,
-			});
+			const result = await esbuild.transform(content, esbuildOptions);
 
 			await fs.writeFile(filePath, result.code);
 			processed++;
