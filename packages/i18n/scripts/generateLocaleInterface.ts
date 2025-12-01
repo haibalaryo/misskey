@@ -62,7 +62,7 @@ function createMembers(record: LocaleRecord): ts.TypeElement[] {
 }
 
 export async function generateLocaleInterface(localesDir: string): Promise<void> {
-	const locale = yaml.load(fs.readFileSync(`${localesDir}/ja-JP.yml`, 'utf-8').toString()) as LocaleRecord;
+	const locale = yaml.load(fs.readFileSync(`${localesDir}/ja-JP.yml`, 'utf-8').toString(), { schema: yaml.JSON_SCHEMA }) as LocaleRecord;
 	const members = createMembers(locale);
 
 	const elements: ts.Statement[] = [

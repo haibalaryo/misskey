@@ -70,7 +70,7 @@ function compileLocales(): void {
 	const files = fs.readdirSync(srcDir).filter(f => f.endsWith('.yml'));
 	for (const file of files) {
 		const yamlContent = clean(fs.readFileSync(resolve(srcDir, file), 'utf-8'));
-		const jsonContent = yaml.load(yamlContent);
+		const jsonContent = yaml.load(yamlContent, { schema: yaml.JSON_SCHEMA });
 		const jsonFile = file.replace(/\.yml$/, '.json');
 		fs.writeFileSync(resolve(destDir, jsonFile), JSON.stringify(jsonContent), 'utf-8');
 	}

@@ -28,7 +28,7 @@ if (!fs.existsSync(configYmlPath)) {
 }
 
 const yamlContent = fs.readFileSync(configYmlPath, 'utf-8');
-const config = yaml.load(yamlContent);
+const config = yaml.load(yamlContent, { schema: yaml.JSON_SCHEMA });
 fs.writeFileSync(configJsonPath, JSON.stringify(config, null, '\t'), 'utf-8');
 
 console.log(`Compiled config: ${configYmlPath} -> ${configJsonPath}`);
