@@ -11,6 +11,7 @@ import * as esbuild from 'esbuild';
 import { build } from 'esbuild';
 import { execa } from 'execa';
 import { globSync } from 'glob';
+import * as yaml from 'js-yaml';
 import { generateLocaleInterface } from './scripts/generateLocaleInterface.js';
 import type { BuildOptions, BuildResult, Plugin, PluginBuild } from 'esbuild';
 
@@ -49,7 +50,18 @@ if (args.includes('--watch')) {
 	await buildSrc();
 }
 
-function copyLocales(): void {
+/**
+ * 何故か文字列にバックスペース文字が混入することがあり、YAMLが壊れるので取り除く
+ */
+function clean(text: string) {
+	return text.replace(new RegExp(String.fromCodePoint(0x08), 'g'), '');
+}
+
+/**
+ * Convert locale YAML files to JSON during build
+ * This allows runtime to avoid loading js-yaml
+ */
+function compileLocales(): void {
 	const srcDir = _localesDir;
 	const destDir = resolve(_dirname, 'built/locales');
 
@@ -57,9 +69,12 @@ function copyLocales(): void {
 
 	const files = fs.readdirSync(srcDir).filter(f => f.endsWith('.yml'));
 	for (const file of files) {
-		fs.copyFileSync(resolve(srcDir, file), resolve(destDir, file));
+		const yamlContent = clean(fs.readFileSync(resolve(srcDir, file), 'utf-8'));
+		const jsonContent = yaml.load(yamlContent);
+		const jsonFile = file.replace(/\.yml$/, '.json');
+		fs.writeFileSync(resolve(destDir, jsonFile), JSON.stringify(jsonContent), 'utf-8');
 	}
-	console.log(`[${_package.name}] locales copied (${files.length} files).`);
+	console.log(`[${_package.name}] locales compiled to JSON (${files.length} files).`);
 }
 
 /**
@@ -87,7 +102,7 @@ async function buildSrc(): Promise<void> {
 			process.exit(1);
 		});
 
-	copyLocales();
+	compileLocales();
 	await writeFrontendLocalesJson();
 
 	if (process.env.NODE_ENV === 'production') {
@@ -123,7 +138,7 @@ async function watchSrc(): Promise<void> {
 	localesWatcher.on('all', async (event, path) => {
 		if (!path.endsWith('.yml')) return;
 		console.log(`[${_package.name}] locales changed: ${event} ${path}`);
-		copyLocales();
+		compileLocales();
 		await writeFrontendLocalesJson();
 		await generateLocaleInterface(_localesDir);
 	});

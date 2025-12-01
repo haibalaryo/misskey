@@ -8,7 +8,6 @@
  */
 
 import * as fs from 'node:fs';
-import * as yaml from 'js-yaml';
 import type { Locale } from './autogen/locale.js';
 import type { ILocale, ParameterizedString } from './types.js';
 
@@ -72,13 +71,6 @@ function merge<T extends ILocale>(...args: (T | ILocale | undefined)[]): T {
 }
 
 /**
- * 何故か文字列にバックスペース文字が混入することがあり、YAMLが壊れるので取り除く
- */
-function clean (text: string) {
-	return text.replace(new RegExp(String.fromCodePoint(0x08), 'g'), '');
-}
-
-/**
  * 空文字列が入ることがあり、フォールバックが動作しなくなるのでプロパティごと消す
  */
 function removeEmpty<T extends ILocale>(obj: T): T {
@@ -98,7 +90,7 @@ function build(): Record<Language, Locale> {
 	// https://github.com/misskey-dev/misskey/pull/14057#issuecomment-2192833785
 	const metaUrl = import.meta.url;
 	const locales = languages.reduce<Locales>((a, lang) => {
-		a[lang] = (yaml.load(clean(fs.readFileSync(new URL(`./locales/${lang}.yml`, metaUrl), 'utf-8'))) ?? {}) as ILocale;
+		a[lang] = (JSON.parse(fs.readFileSync(new URL(`./locales/${lang}.json`, metaUrl), 'utf-8')) ?? {}) as ILocale;
 		return a;
 	}, {} as Locales);
 
