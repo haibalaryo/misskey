@@ -39,10 +39,6 @@ services:
         target: /misskey/packages/backend/ormconfig.js
         read_only: true
       - type: bind
-        source: ../scripts
-        target: /misskey/packages/backend/scripts
-        read_only: true
-      - type: bind
         source: ../package.json
         target: /misskey/packages/backend/package.json
         read_only: true
@@ -90,8 +86,8 @@ services:
     command: >
       bash -c "
         npm install -g pnpm
-        pnpm -F backend typeorm migration:run -d ormconfig.js
-        node ./packages/backend/built/boot/entry.js
+        pnpm -F backend migrate
+        pnpm -F backend start
       "
     healthcheck:
       test: bash /misskey/healthcheck.sh

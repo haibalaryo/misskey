@@ -29,8 +29,6 @@ function generate {
   if [ ! -f .config/docker.env ]; then cp .config/example.docker.env .config/docker.env; fi
   if [ ! -f .config/$1.conf ]; then sed "s/\${HOST}/$1/g" .config/example.conf > .config/$1.conf; fi
   if [ ! -f .config/$1.default.yml ]; then sed "s/\${HOST}/$1/g" .config/example.default.yml > .config/$1.default.yml; fi
-  # Pre-compile YAML config to JSON (for runtime use without js-yaml)
-  if [ -f .config/$1.default.yml ]; then node -e "const fs=require('fs'),yaml=require('js-yaml');fs.writeFileSync('.config/$1.default.json',JSON.stringify(yaml.load(fs.readFileSync('.config/$1.default.yml','utf-8'),{schema:yaml.JSON_SCHEMA}),null,'\t'),'utf-8')"; fi
 }
 
 generate a.test
