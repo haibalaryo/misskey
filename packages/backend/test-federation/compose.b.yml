@@ -40,6 +40,10 @@ services:
         source: ./.config/b.test.default.yml
         target: /misskey/.config/default.yml
         read_only: true
+      - type: bind
+        source: ./.config/b.test.default.json
+        target: /misskey/.config/default.json
+        read_only: true
 
   db.b.test:
     extends:
