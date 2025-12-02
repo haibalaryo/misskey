@@ -11,7 +11,7 @@ import * as yaml from 'js-yaml';
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);
 
-const dir = `${_dirname}/../../../.config`;
+const dir = `${_dirname}/../.config`;
 
 const configYmlPath = process.env.MISSKEY_CONFIG_YML
 	? resolve(dir, process.env.MISSKEY_CONFIG_YML)
