@@ -43,7 +43,7 @@ services:
       - type: bind
         source: ./.config/b.test.default.json
         target: /misskey/.config/default.json
-        read_only: true
+        read_only: false
 
   db.b.test:
     extends:
