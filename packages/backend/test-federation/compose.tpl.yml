@@ -39,10 +39,6 @@ services:
         target: /misskey/packages/backend/ormconfig.js
         read_only: true
       - type: bind
-        source: ../scripts
-        target: /misskey/packages/backend/scripts
-        read_only: true
-      - type: bind
         source: ../package.json
         target: /misskey/packages/backend/package.json
         read_only: true

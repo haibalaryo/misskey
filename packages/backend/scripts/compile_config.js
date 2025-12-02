@@ -19,8 +19,7 @@ const configYmlPath = process.env.MISSKEY_CONFIG_YML
 		? resolve(dir, 'test.yml')
 		: resolve(dir, 'default.yml');
 
-// Change extension from .yml to .json
-const configJsonPath = configYmlPath.replace(/\.yml$/, '.json');
+const configJsonPath = resolve(dir, 'config.json');
 
 if (!fs.existsSync(configYmlPath)) {
 	console.error(`Configuration file not found: ${configYmlPath}`);
@@ -29,6 +28,6 @@ if (!fs.existsSync(configYmlPath)) {
 
 const yamlContent = fs.readFileSync(configYmlPath, 'utf-8');
 const config = yaml.load(yamlContent, { schema: yaml.JSON_SCHEMA });
-fs.writeFileSync(configJsonPath, JSON.stringify(config, null, '\t'), 'utf-8');
+fs.writeFileSync(configJsonPath, JSON.stringify(config), 'utf-8');
 
 console.log(`Compiled config: ${configYmlPath} -> ${configJsonPath}`);

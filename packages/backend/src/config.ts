@@ -223,18 +223,9 @@ const _dirname = dirname(_filename);
 const dir = `${_dirname}/../../../.config`;
 
 /**
- * Path of configuration file (YAML)
+ * Path of configuration file
  */
-const configYmlPath = process.env.MISSKEY_CONFIG_YML
-	? resolve(dir, process.env.MISSKEY_CONFIG_YML)
-	: process.env.NODE_ENV === 'test'
-		? resolve(dir, 'test.yml')
-		: resolve(dir, 'default.yml');
-
-/**
- * Path of configuration file (JSON, pre-compiled from YAML)
- */
-export const path = configYmlPath.replace(/\.yml$/, '.json');
+export const path = resolve(dir, 'config.json');
 
 export function loadConfig(): Config {
 	const meta = JSON.parse(fs.readFileSync(`${_dirname}/../../../built/meta.json`, 'utf-8'));
