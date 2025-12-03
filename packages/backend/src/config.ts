@@ -217,18 +217,12 @@ export type FulltextSearchProvider = 'sqlLike' | 'sqlPgroonga' | 'meilisearch';
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);
 
-/**
- * Path of configuration directory
- */
-const dir = `${_dirname}/../../../.config`;
+const configDir = `${_dirname}/../../../.config`;
 
-/**
- * Path of configuration file
- */
-export const path = resolve(dir, '.config.json');
+export const compiledConfigFilePath = resolve(configDir, '.config.json');
 
 export function loadConfig(): Config {
-	if (!fs.existsSync(path)) {
+	if (!fs.existsSync(compiledConfigFilePath)) {
 		throw new Error('Compiled configuration file not found. Try running \'pnpm convert:config\'.');
 	}
 
@@ -243,7 +237,7 @@ export function loadConfig(): Config {
 		JSON.parse(fs.readFileSync(`${_dirname}/../../../built/_frontend_embed_vite_/manifest.json`, 'utf-8'))
 		: { 'src/boot.ts': { file: null } };
 
-	const config = JSON.parse(fs.readFileSync(path, 'utf-8')) as Source;
+	const config = JSON.parse(fs.readFileSync(compiledConfigFilePath, 'utf-8')) as Source;
 
 	const url = tryCreateUrl(config.url ?? process.env.MISSKEY_URL ?? '');
 	const version = meta.version;

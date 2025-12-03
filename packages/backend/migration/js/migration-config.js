@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { path as configYamlPath } from '../../built/config.js';
-import * as yaml from 'js-yaml';
+import { compiledConfigFilePath } from '../../built/config.js';
 import fs from "node:fs";
 
 export function isConcurrentIndexMigrationEnabled() {
@@ -14,7 +13,7 @@ export function isConcurrentIndexMigrationEnabled() {
 let loadedConfigCache = undefined;
 
 function loadConfigInternal() {
-	const config = yaml.load(fs.readFileSync(configYamlPath, 'utf-8'));
+	const config = JSON.parse(fs.readFileSync(compiledConfigFilePath, 'utf-8'));
 
 	return {
 		disallowExternalApRedirect: Boolean(config.disallowExternalApRedirect ?? false),
