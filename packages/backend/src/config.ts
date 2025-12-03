@@ -228,6 +228,10 @@ const dir = `${_dirname}/../../../.config`;
 export const path = resolve(dir, '.config.json');
 
 export function loadConfig(): Config {
+	if (!fs.existsSync(path)) {
+		throw new Error('Compiled configuration file not found. Try running \'pnpm convert:config\'.');
+	}
+
 	const meta = JSON.parse(fs.readFileSync(`${_dirname}/../../../built/meta.json`, 'utf-8'));
 
 	const frontendManifestExists = fs.existsSync(_dirname + '/../../../built/_frontend_vite_/manifest.json');
