@@ -27,11 +27,9 @@ const OUTPUT_PATH = resolve(configDir, '.config.json');
  */
 function yamlToJson(ymlPath) {
 	if (!fs.existsSync(ymlPath)) {
-		console.warn(`YAML file not found: ${ymlPath}`);
-		process.exit(1);
+		console.log(`skipped: ${ymlPath} is not found`);
+		return;
 	}
-
-	console.log(`${ymlPath} → ${OUTPUT_PATH}`);
 
 	const yamlContent = fs.readFileSync(ymlPath, 'utf-8');
 	const jsonContent = yaml.load(yamlContent);
@@ -39,6 +37,7 @@ function yamlToJson(ymlPath) {
 		'_NOTE_': 'This file is auto-generated from YAML file. DO NOT EDIT.',
 		...jsonContent,
 	}), 'utf-8');
+	console.log(`✓ ${ymlPath} → ${OUTPUT_PATH}`);
 }
 
 if (process.env.MISSKEY_CONFIG_YML) {
@@ -48,4 +47,4 @@ if (process.env.MISSKEY_CONFIG_YML) {
 	yamlToJson(resolve(configDir, process.env.NODE_ENV === 'test' ? 'test.yml' : 'default.yml'));
 }
 
-console.log('Configuration compiled ✓');
+console.log('Configuration compiled');
