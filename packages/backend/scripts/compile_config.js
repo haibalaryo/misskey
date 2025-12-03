@@ -19,34 +19,33 @@ const _dirname = dirname(_filename);
 const configDir = resolve(_dirname, '../../../.config');
 const OUTPUT_PATH = resolve(configDir, '.config.json');
 
+// TODO: yamlのパースに失敗したときのエラーハンドリング
+
 /**
  * YAMLファイルをJSONファイルに変換
  * @param {string} ymlPath - YAMLファイルのパス
- * @param {string} jsonPath - JSONファイルの出力パス
  */
-function convertYamlToJson(ymlPath, jsonPath) {
+function yamlToJson(ymlPath) {
 	if (!fs.existsSync(ymlPath)) {
-		console.log(`skipped: ${ymlPath} is not found`);
-		return;
+		console.warn(`YAML file not found: ${ymlPath}`);
+		process.exit(1);
 	}
+
+	console.log(`${ymlPath} → ${OUTPUT_PATH}`);
 
 	const yamlContent = fs.readFileSync(ymlPath, 'utf-8');
 	const jsonContent = yaml.load(yamlContent);
-	fs.writeFileSync(jsonPath, JSON.stringify({
+	fs.writeFileSync(OUTPUT_PATH, JSON.stringify({
 		'_NOTE_': 'This file is auto-generated from YAML file. DO NOT EDIT.',
 		...jsonContent,
 	}), 'utf-8');
-	console.log(`✓ ${ymlPath} → ${jsonPath}`);
 }
 
 if (process.env.MISSKEY_CONFIG_YML) {
 	const customYmlPath = resolve(configDir, process.env.MISSKEY_CONFIG_YML);
-	convertYamlToJson(customYmlPath, OUTPUT_PATH);
+	yamlToJson(customYmlPath);
 } else {
-	convertYamlToJson(
-		resolve(configDir, process.env.NODE_ENV === 'test' ? 'test.yml' : 'default.yml'),
-		OUTPUT_PATH,
-	);
+	yamlToJson(resolve(configDir, process.env.NODE_ENV === 'test' ? 'test.yml' : 'default.yml'));
 }
 
-console.log('Configuration compiled');
+console.log('Configuration compiled ✓');

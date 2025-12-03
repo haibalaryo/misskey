@@ -223,7 +223,7 @@ export const compiledConfigFilePath = resolve(configDir, '.config.json');
 
 export function loadConfig(): Config {
 	if (!fs.existsSync(compiledConfigFilePath)) {
-		throw new Error('Compiled configuration file not found. Try running \'pnpm convert:config\'.');
+		throw new Error('Compiled configuration file not found. Try running \'pnpm compile-config\'.');
 	}
 
 	const meta = JSON.parse(fs.readFileSync(`${_dirname}/../../../built/meta.json`, 'utf-8'));
