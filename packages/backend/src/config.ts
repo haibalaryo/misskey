@@ -225,11 +225,7 @@ const dir = `${_dirname}/../../../.config`;
 /**
  * Path of configuration file
  */
-export const path = process.env.MISSKEY_CONFIG_YML
-	? resolve(dir, process.env.MISSKEY_CONFIG_YML).replace(/\.ya?ml$/i, '.json')
-	: process.env.NODE_ENV === 'test'
-		? resolve(dir, 'test.json')
-		: resolve(dir, 'default.json');
+export const path = resolve(dir, '.config.json');
 
 export function loadConfig(): Config {
 	const meta = JSON.parse(fs.readFileSync(`${_dirname}/../../../built/meta.json`, 'utf-8'));

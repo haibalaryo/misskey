@@ -17,6 +17,7 @@ const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);
 
 const configDir = resolve(_dirname, '../../../.config');
+const OUTPUT_PATH = resolve(configDir, '.config.json');
 
 /**
  * YAMLファイルをJSONファイルに変換
@@ -38,22 +39,14 @@ function convertYamlToJson(ymlPath, jsonPath) {
 	console.log(`✓ ${ymlPath} → ${jsonPath}`);
 }
 
-// default.yml と test.yml を変換
-convertYamlToJson(
-	resolve(configDir, 'default.yml'),
-	resolve(configDir, 'default.json'),
-);
-
-convertYamlToJson(
-	resolve(configDir, 'test.yml'),
-	resolve(configDir, 'test.json'),
-);
-
-// MISSKEY_CONFIG_YML 環境変数が指定されている場合も変換
 if (process.env.MISSKEY_CONFIG_YML) {
 	const customYmlPath = resolve(configDir, process.env.MISSKEY_CONFIG_YML);
-	const customJsonPath = customYmlPath.replace(/\.ya?ml$/i, '.json');
-	convertYamlToJson(customYmlPath, customJsonPath);
+	convertYamlToJson(customYmlPath, OUTPUT_PATH);
+} else {
+	convertYamlToJson(
+		resolve(configDir, process.env.NODE_ENV === 'test' ? 'test.yml' : 'default.yml'),
+		OUTPUT_PATH,
+	);
 }
 
 console.log('Configuration compiled');
