@@ -206,7 +206,7 @@ export function getConfig(): UserConfig {
 					},
 				},
 			},
-			cssCodeSplit: false,
+			cssCodeSplit: true,
 			outDir: __dirname + '/../../built/_frontend_vite_',
 			assetsDir: '.',
 			emptyOutDir: false,
