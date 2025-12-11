@@ -164,7 +164,7 @@ export function getConfig(): UserConfig {
 					},
 				},
 			},
-			cssCodeSplit: true,
+			cssCodeSplit: false,
 			outDir: __dirname + '/../../built/_frontend_embed_vite_',
 			assetsDir: '.',
 			emptyOutDir: false,
