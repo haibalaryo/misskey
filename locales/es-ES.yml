@@ -2207,7 +2207,7 @@ _registry:
   key: "Clave"
   keys: "Clave"
   domain: "Dominio"
-  createKey: "Crear una llave"
+  createKey: "Crear una clave"
 _aboutMisskey:
   about: "Misskey es un software de código abierto, desarrollado por syuilo desde el 2014"
   contributors: "Principales colaboradores"
