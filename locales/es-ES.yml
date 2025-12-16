@@ -1689,7 +1689,7 @@ _initialTutorial:
       localOnly: "Publicando con esta opción seleccionada, la nota no se federará hacia otros servidores. Los usuarios de otros servidores no podrán ver estas notas directamente, sin importar los ajustes seleccionados más arriba."
     _cw:
       title: "Alerta de contenido (CW)"
-      description: "En lugar de mostrarse el contenido de la nota, se mostrará lo que escribas en el campo \"comentarios\". Pulsando en \"leer más\" desplegará el contenido de la nota."
+      description: "En lugar de mostrarse el contenido de la nota, se mostrará lo que escribas en el campo \"comentarios\". Pulsando en \"Ver más\" desplegará el contenido de la nota."
       _exampleNote:
         cw: "¡Esto te hará tener hambre!"
         note: "Acabo de comerme un donut de chocolate glaseado 🍩😋"
