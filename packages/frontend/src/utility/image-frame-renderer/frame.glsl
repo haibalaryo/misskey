@@ -10,6 +10,7 @@ in vec2 in_uv;
 uniform sampler2D in_texture;
 uniform vec2 in_resolution;
 uniform sampler2D u_image;
+uniform sampler2D u_frameImage;
 uniform sampler2D u_topLabel;
 uniform sampler2D u_bottomLabel;
 uniform bool u_topLabelEnabled;
@@ -36,6 +37,9 @@ void main() {
 		remap(in_uv.x, u_paddingLeft, 1.0 - u_paddingRight, 0.0, 1.0),
 		remap(in_uv.y, u_paddingTop, 1.0 - u_paddingBottom, 0.0, 1.0)
 	));
+
+	vec4 imageFrame_color = texture(u_frameImage, in_uv);
+	image_color = vec4(blendAlpha(image_color.rgb, imageFrame_color), 1.0);
 
 	vec4 topLabel_color = u_topLabelEnabled ? texture(u_topLabel, vec2(
 		in_uv.x,

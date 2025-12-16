@@ -31,6 +31,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 			<div :class="$style.controls">
 				<div class="_spacer _gaps">
+					<MkButton inline rounded primary @click="chooseFile">{{ i18n.ts.selectFile }}</MkButton>
+
 					<MkRange v-model="params.borderThickness" :min="0" :max="0.2" :step="0.01" :continuousUpdate="true">
 						<template #label>{{ i18n.ts._imageFrameEditor.borderThickness }}</template>
 					</MkRange>
@@ -175,6 +177,7 @@ import { ensureSignin } from '@/i.js';
 import { genId } from '@/utility/id.js';
 import { useMkSelect } from '@/composables/use-mkselect.js';
 import { prefer } from '@/preferences.js';
+import { selectFile } from '@/utility/drive.js';
 
 const $i = ensureSignin();
 
@@ -216,6 +219,7 @@ const params = reactive<ImageFrameParams>(deepClone(props.params) ?? {
 	bgColor: [1, 1, 1],
 	fgColor: [0, 0, 0],
 	font: 'sans-serif',
+	imageUrl: null,
 });
 
 const emit = defineEmits<{
@@ -408,6 +412,28 @@ function getRgb(hex: string | number): [number, number, number] | null {
 	const m = hex.slice(1).match(/[0-9a-fA-F]{2}/g);
 	if (m == null) return [0, 0, 0];
 	return m.map(x => parseInt(x, 16) / 255) as [number, number, number];
+}
+
+function chooseFile(ev: MouseEvent) {
+	selectFile({
+		anchorElement: ev.currentTarget ?? ev.target,
+		multiple: false,
+		label: i18n.ts.selectFile,
+		features: {
+			watermark: false,
+		},
+	}).then((file) => {
+		if (!file.type.startsWith('image')) {
+			os.alert({
+				type: 'warning',
+				title: i18n.ts._watermarkEditor.driveFileTypeWarn,
+				text: i18n.ts._watermarkEditor.driveFileTypeWarnDescription,
+			});
+			return;
+		}
+
+		params.imageUrl = file.url;
+	});
 }
 </script>
 

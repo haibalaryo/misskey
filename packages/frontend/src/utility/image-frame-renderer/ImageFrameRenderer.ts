@@ -30,6 +30,7 @@ export type ImageFrameParams = {
 	fgColor: [r: number, g: number, b: number];
 	font: 'serif' | 'sans-serif';
 	borderRadius: number; // TODO
+	imageUrl: string | null;
 };
 
 export type ImageFramePreset = {
@@ -241,6 +242,17 @@ export class ImageFrameRenderer {
 			this.compositor.registerTexture('bottomLabel', bottomLabelImage);
 		}
 
+		if (params.imageUrl != null) {
+			const frameImage = new Image();
+			frameImage.crossOrigin = 'anonymous';
+			await new Promise<void>((resolve, reject) => {
+				frameImage.onload = () => resolve();
+				frameImage.onerror = () => reject(new Error('Failed to load frame image'));
+				frameImage.src = params.imageUrl!;
+			});
+			this.compositor.registerTexture('frameImage', frameImage);
+		}
+
 		this.compositor.changeResolution(renderWidth, renderHeight);
 
 		this.compositor.render([{
@@ -248,6 +260,7 @@ export class ImageFrameRenderer {
 			id: 'a',
 			params: {
 				image: 'image',
+				frameImage: 'frameImage',
 				topLabel: 'topLabel',
 				bottomLabel: 'bottomLabel',
 				topLabelEnabled: params.labelTop.enabled,

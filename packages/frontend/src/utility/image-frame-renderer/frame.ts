@@ -8,6 +8,7 @@ import { defineImageCompositorFunction } from '@/lib/ImageCompositor.js';
 
 export const FN_frame = defineImageCompositorFunction<{
 	image: string | null;
+	frameImage: string | null;
 	topLabel: string | null;
 	bottomLabel: string | null;
 	topLabelEnabled: boolean;
@@ -36,21 +37,30 @@ export const FN_frame = defineImageCompositorFunction<{
 		gl.uniform1f(u.paddingRight, params.paddingRight);
 		gl.uniform3f(u.bg, params.bg[0], params.bg[1], params.bg[2]);
 
+		if (params.frameImage != null) {
+			const frameImage = textures.get(params.frameImage);
+			if (frameImage) {
+				gl.activeTexture(gl.TEXTURE2);
+				gl.bindTexture(gl.TEXTURE_2D, frameImage.texture);
+				gl.uniform1i(u.frameImage, 2);
+			}
+		}
+
 		if (params.topLabelEnabled && params.topLabel != null) {
 			const topLabel = textures.get(params.topLabel);
 			if (topLabel) {
-				gl.activeTexture(gl.TEXTURE2);
+				gl.activeTexture(gl.TEXTURE3);
 				gl.bindTexture(gl.TEXTURE_2D, topLabel.texture);
-				gl.uniform1i(u.topLabel, 2);
+				gl.uniform1i(u.topLabel, 3);
 			}
 		}
 
 		if (params.bottomLabelEnabled && params.bottomLabel != null) {
 			const bottomLabel = textures.get(params.bottomLabel);
 			if (bottomLabel) {
-				gl.activeTexture(gl.TEXTURE3);
+				gl.activeTexture(gl.TEXTURE4);
 				gl.bindTexture(gl.TEXTURE_2D, bottomLabel.texture);
-				gl.uniform1i(u.bottomLabel, 3);
+				gl.uniform1i(u.bottomLabel, 4);
 			}
 		}
 	},
