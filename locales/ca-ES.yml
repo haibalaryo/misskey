@@ -2816,6 +2816,14 @@ _deck:
   usedAsMinWidthWhenFlexible: "L'amplada mínima es farà servir quan \"Ajust automàtic de l'amplada\" estigui activat"
   flexible: "Ajust automàtic de l'amplada"
   enableSyncBetweenDevicesForProfiles: "Activar la sincronització de la informació de perfils de dispositiu a dispositiu"
+  showHowToUse: "Veure la descripció de la interfície d'usuari "
+  _howToUse:
+    addColumn_title: "Afegir columna"
+    addColumn_description: "Pots seleccionar i afegir tipus de columnes."
+    settings_title: "Configuració de la interfície d'usuari "
+    settings_description: "Pots configurar la interfície d'usuari amb detall."
+    switchProfile_title: "Canviar perfil"
+    switchProfile_description: "Pots desar el disseny de la interfície d'usuari com un perfil i anar canviant entre ells quan vulguis."
   _columns:
     main: "Principal"
     widgets: "Ginys"
