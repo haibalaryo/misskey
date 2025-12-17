@@ -2816,6 +2816,11 @@ _deck:
   usedAsMinWidthWhenFlexible: "「自适应宽度」被启用的时候，这就是最小的宽度"
   flexible: "自适应宽度"
   enableSyncBetweenDevicesForProfiles: "启用个人资料信息跨设备同步"
+  showHowToUse: "查看用户界面说明"
+  _howToUse:
+    settings_title: "用户界面设置"
+    switchProfile_title: "切换配置文件"
+    switchProfile_description: "将用户界面布局保存为配置文件，以便随时切换。"
   _columns:
     main: "主列"
     widgets: "小工具"
