@@ -88,9 +88,20 @@ export const paramDef = {
 				sinceDate: { type: 'integer' },
 				untilDate: { type: 'integer' },
 				limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-				birthday: { ...birthdaySchema, nullable: true },
-				query: { type: 'string', nullable: true },
 			},
+		},
+		{
+			oneOf: [{
+				type: 'object',
+				properties: {
+					query: { type: 'string' },
+				},
+			}, {
+				type: 'object',
+				properties: {
+					birthday: { ...birthdaySchema, nullable: true },
+				},
+			}],
 		},
 	],
 } as const;
@@ -151,7 +162,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				.innerJoinAndSelect('following.followee', 'followee');
 
 			// query takes priority over birthday
-			if (ps.query) {
+			if ('query' in ps && ps.query != null) {
 				const searchQuery = ps.query;
 				const isUsername = searchQuery.startsWith('@') && !searchQuery.includes(' ') && searchQuery.indexOf('@', 1) === -1;
 
@@ -164,7 +175,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 						qb.orWhere('followee.usernameLower LIKE :username', { username: '%' + sqlLikeEscape(searchQuery.toLowerCase()) + '%' });
 					}
 				}));
-			} else if (ps.birthday) {
+			} else if ('birthday' in ps && ps.birthday != null) {
 				try {
 					const birthday = ps.birthday.substring(5, 10);
 					const birthdayUserQuery = this.userProfilesRepository.createQueryBuilder('user_profile');

@@ -34848,9 +34848,11 @@ export interface operations {
                     untilDate?: number;
                     /** @default 10 */
                     limit?: number;
+                } & ({
+                    query?: string;
+                } | {
                     birthday?: string | null;
-                    query?: string | null;
-                };
+                });
             };
         };
         responses: {
