@@ -2816,6 +2816,11 @@ _deck:
   usedAsMinWidthWhenFlexible: "如果啟用「自動調整寬度」，此為最小寬度"
   flexible: "自動調整寬度"
   enableSyncBetweenDevicesForProfiles: "啟用裝置與裝置之間的設定檔資料同步化"
+  showHowToUse: "檢視 UI 說明"
+  _howToUse:
+    addColumn_title: "新增欄位"
+    addColumn_description: "您可以選擇要新增的欄位類型。"
+    settings_title: "UI 設定"
   _columns:
     main: "主列"
     widgets: "小工具"
