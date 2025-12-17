@@ -25,7 +25,10 @@ const props = defineProps<{
 	type: 'following' | 'followers';
 }>();
 
-const followingPaginator = markRaw(new Paginator('users/following', {
+const followingPaginator = markRaw(new Paginator<'users/following', {
+	req: Misskey.entities.UsersFollowingRequest & { query?: string; };
+	res: Misskey.entities.UsersFollowingResponse;
+}>('users/following', {
 	limit: 20,
 	computedParams: computed(() => ({
 		userId: props.user.id,
