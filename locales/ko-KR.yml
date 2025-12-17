@@ -2816,6 +2816,14 @@ _deck:
   usedAsMinWidthWhenFlexible: "'폭 자동 조정'이 활성화된 경우 최소 폭으로 사용됩니다"
   flexible: "폭 자동 조정"
   enableSyncBetweenDevicesForProfiles: "프로파일 정보의 디바이스 간 동기화를 활성화"
+  showHowToUse: "UI 설명 보기"
+  _howToUse:
+    addColumn_title: "칼럼 추가"
+    addColumn_description: "칼럼의 종류를 선택해 추가할 수 있습니다."
+    settings_title: "UI 설정"
+    settings_description: "덱 UI의 상세 설정을 할 수 있습니다."
+    switchProfile_title: "프로필 전환"
+    switchProfile_description: "UI의 레이아웃을 프로필로 저장하고, 언제나 전환할 수 있습니다."
   _columns:
     main: "메인"
     widgets: "위젯"
