@@ -2819,7 +2819,9 @@ _deck:
   showHowToUse: "查看用户界面说明"
   _howToUse:
     addColumn_title: "添加列"
+    addColumn_description: "可以选择要添加的列的类型。"
     settings_title: "用户界面设置"
+    settings_description: "可以配置 Deck UI 的详细设置，"
     switchProfile_title: "切换配置文件"
     switchProfile_description: "将用户界面布局保存为配置文件，以便随时切换。"
   _columns:
