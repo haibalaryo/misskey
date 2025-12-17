@@ -7,7 +7,6 @@ import { randomUUID } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as stream from 'node:stream/promises';
 import { Inject, Injectable } from '@nestjs/common';
-import * as Sentry from '@sentry/node';
 import { DI } from '@/di-symbols.js';
 import { getIpHash } from '@/misc/get-ip-hash.js';
 import type { MiLocalUser, MiUser } from '@/models/User.js';
@@ -37,6 +36,7 @@ export class ApiCallService implements OnApplicationShutdown {
 	private logger: Logger;
 	private userIpHistories: Map<MiUser['id'], Set<string>>;
 	private userIpHistoriesClearIntervalId: NodeJS.Timeout;
+	private Sentry: typeof import('@sentry/node') | null = null;
 
 	constructor(
 		@Inject(DI.meta)
@@ -59,6 +59,12 @@ export class ApiCallService implements OnApplicationShutdown {
 		this.userIpHistoriesClearIntervalId = setInterval(() => {
 			this.userIpHistories.clear();
 		}, 1000 * 60 * 60);
+
+		if (this.config.sentryForBackend) {
+			import('@sentry/node').then((Sentry) => {
+				this.Sentry = Sentry;
+			});
+		}
 	}
 
 	#sendApiError(reply: FastifyReply, err: ApiError): void {
@@ -120,8 +126,8 @@ export class ApiCallService implements OnApplicationShutdown {
 				},
 			});
 
-			if (this.config.sentryForBackend) {
-				Sentry.captureMessage(`Internal error occurred in ${ep.name}: ${err.message}`, {
+			if (this.Sentry != null) {
+				this.Sentry.captureMessage(`Internal error occurred in ${ep.name}: ${err.message}`, {
 					level: 'error',
 					user: {
 						id: userId,
@@ -307,12 +313,16 @@ export class ApiCallService implements OnApplicationShutdown {
 		}
 
 		if (ep.meta.limit) {
-			// koa will automatically load the `X-Forwarded-For` header if `proxy: true` is configured in the app.
-			let limitActor: string;
+			let limitActor: string | null;
 			if (user) {
 				limitActor = user.id;
 			} else {
-				limitActor = getIpHash(request.ip);
+				if (request.ip === '::1' || request.ip === '127.0.0.1') {
+					console.warn('request ip is localhost, maybe caused by misconfiguration of trustProxy or reverse proxy');
+					limitActor = null;
+				} else {
+					limitActor = getIpHash(request.ip);
+				}
 			}
 
 			const limit = Object.assign({}, ep.meta.limit);
@@ -324,7 +334,7 @@ export class ApiCallService implements OnApplicationShutdown {
 			// TODO: 毎リクエスト計算するのもあれだしキャッシュしたい
 			const factor = user ? (await this.roleService.getUserPolicies(user.id)).rateLimitFactor : 1;
 
-			if (factor > 0) {
+			if (limitActor != null && factor > 0) {
 				// Rate limit
 				const rateLimit = await this.rateLimiterService.limit(limit as IEndpointMeta['limit'] & { key: NonNullable<string> }, limitActor, factor);
 				if (rateLimit != null) {
@@ -432,8 +442,8 @@ export class ApiCallService implements OnApplicationShutdown {
 		}
 
 		// API invoking
-		if (this.config.sentryForBackend) {
-			return await Sentry.startSpan({
+		if (this.Sentry != null) {
+			return await this.Sentry.startSpan({
 				name: 'API: ' + ep.name,
 			}, () => ep.exec(data, user, token, file, request.ip, request.headers)
 				.catch((err: Error) => this.#onExecError(ep, data, err, user?.id)));
