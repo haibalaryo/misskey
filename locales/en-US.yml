@@ -2816,6 +2816,7 @@ _deck:
   usedAsMinWidthWhenFlexible: "Minimum width will be used for this when the \"Auto-adjust width\" option is enabled"
   flexible: "Auto-adjust width"
   enableSyncBetweenDevicesForProfiles: "Enable profile information sync between devices"
+  showHowToUse: ""
   _columns:
     main: "Main"
     widgets: "Widgets"
