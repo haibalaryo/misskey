@@ -1609,8 +1609,8 @@ _bubbleGame:
     highScore: "Millor puntuació "
     maxChain: "Nombre màxim de combos"
     yen: "{yen}Ien"
-    estimatedQty: "{qty}peces"
-    scoreSweets: "{onigiriQtyWithUnit}ongiris"
+    estimatedQty: "{qty} Peces"
+    scoreSweets: "{onigiriQtyWithUnit} Boles d'arròs "
   _howToPlay:
     section1: "Ajusta la posició i deixa caure l'objecte dintre la caixa."
     section2: "Quan dos objectes del mateix tipus es toquen, canviaran en un objecte diferent i guanyares punts."
