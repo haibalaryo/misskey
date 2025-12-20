@@ -2823,6 +2823,7 @@ _deck:
     settings_title: "UI 設定"
     settings_description: "您可以對多欄模式 UI 做詳細設定。"
     switchProfile_title: "切換設定檔"
+    switchProfile_description: "將UI 佈局儲存為設定檔，就可以隨時切換使用。"
   _columns:
     main: "主列"
     widgets: "小工具"
