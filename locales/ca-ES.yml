@@ -1550,6 +1550,9 @@ _settings:
   showPageTabBarBottom: "Mostrar les pestanyes de les línies de temps a la part inferior"
   emojiPaletteBanner: "Pots registrar ajustos preestablerts com paletes perquè es mostrin permanentment al selector d'emojis, o personalitzar la configuració de visió del selector."
   enableAnimatedImages: "Activar imatges animades"
+  settingsPersistence_title: "Persistència de la configuració "
+  settingsPersistence_description1: "Habilitar la persistència de la configuració permet que no es perdi la informació de la configuració "
+  settingsPersistence_description2: "Depenent de l'entorn pot ser que no puguis habilitar aquesta opció."
   _chat:
     showSenderName: "Mostrar el nom del remitent"
     sendOnEnter: "Introdueix per enviar"
