@@ -1550,6 +1550,9 @@ _settings:
   showPageTabBarBottom: "Mostrar la barra de pestañas de la página en la parte inferior."
   emojiPaletteBanner: "Puedes registrar ajustes preestablecidos como paletas para que se muestren permanentemente en el selector de emojis, o personalizar el método de visualización del selector."
   enableAnimatedImages: "Habilitar imágenes animadas"
+  settingsPersistence_title: "Persistencia de la configuración"
+  settingsPersistence_description1: "Habilitar la persistencia de la configuración evita que se pierda la información de configuración."
+  settingsPersistence_description2: "Es posible que no se pueda habilitar esta función dependiendo del entorno."
   _chat:
     showSenderName: "Mostrar el nombre del remitente"
     sendOnEnter: "Intro para enviar"
@@ -2816,7 +2819,13 @@ _deck:
   usedAsMinWidthWhenFlexible: "Se usará el ancho mínimo cuando la opción \"Autoajustar ancho\" esté habilitada"
   flexible: "Autoajustar ancho"
   enableSyncBetweenDevicesForProfiles: "Activar la sincronización de la información de perfiles entre dispositivos."
+  showHowToUse: "Ver la descripción de la interfaz de usuario"
   _howToUse:
+    addColumn_title: "Añadir columna"
+    addColumn_description: "Puede seleccionar y añadir tipos de columnas."
+    settings_title: "Configuración de la interfaz de usuario"
+    settings_description: "Puedes configurar la interfaz de usuario en detalle."
+    switchProfile_title: "Cambiar de perfil"
     switchProfile_description: "Puedes guardar diseños de interfaz de usuario como perfiles y cambiar entre ellos en cualquier momento."
   _columns:
     main: "Principal"
