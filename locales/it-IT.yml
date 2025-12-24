@@ -1550,6 +1550,9 @@ _settings:
   showPageTabBarBottom: "Visualizza le schede della pagina nella parte inferiore"
   emojiPaletteBanner: "Puoi salvare i le emoji predefinite da appuntare in alto nel raccoglitore emoji come tavolozza e personalizzare in che modo visualizzare il raccoglitore."
   enableAnimatedImages: "Attivare le immagini animate"
+  settingsPersistence_title: "Configurazione persistente"
+  settingsPersistence_description1: "Attivando le impostazioni persistenti si può evitare di riconfigurare il client successivamente."
+  settingsPersistence_description2: "Potrebbe non essere possibile attivare, dipende dall'ambiente."
   _chat:
     showSenderName: "Mostra il nome del mittente"
     sendOnEnter: "Invio spedisce"
