@@ -2816,6 +2816,8 @@ _deck:
   usedAsMinWidthWhenFlexible: "Se usará el ancho mínimo cuando la opción \"Autoajustar ancho\" esté habilitada"
   flexible: "Autoajustar ancho"
   enableSyncBetweenDevicesForProfiles: "Activar la sincronización de la información de perfiles entre dispositivos."
+  _howToUse:
+    switchProfile_description: "Puedes guardar diseños de interfaz de usuario como perfiles y cambiar entre ellos en cualquier momento."
   _columns:
     main: "Principal"
     widgets: "Widgets"
