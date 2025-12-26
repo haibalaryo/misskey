@@ -1,6 +1,10 @@
 services:
   web:
-    build: .
+    # build: .
+
+    # ぎっとはぶ上のいめーじ
+    image: ghcr.io/haibalaryo/misskey:master
+
     restart: always
     links:
       - db
