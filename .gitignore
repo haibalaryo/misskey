@@ -80,3 +80,9 @@ vite.config.local-dev.ts.timestamp-*
 
 # VSCode addon
 .favorites.json
+
+# backups
+misskey_conf_*.tar.gz
+misskey_db_*.tar.gz
+misskey_db_*.dump
+reject_*.txt
