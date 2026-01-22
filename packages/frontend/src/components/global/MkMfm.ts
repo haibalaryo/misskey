@@ -21,6 +21,8 @@ import MkGoogle from '@/components/MkGoogle.vue';
 import MkSparkle from '@/components/MkSparkle.vue';
 import MkA from '@/components/global/MkA.vue';
 import { prefer } from '@/preferences.js';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 function safeParseFloat(str: unknown): number | null {
 	if (typeof str !== 'string' || str === '') return null;
@@ -451,12 +453,41 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 				})];
 			}
 
+			// case 'mathInline': {
+			// 	return [h('code', token.props.formula)];
+			// }
+
+			// case 'mathBlock': {
+			// 	return [h('code', token.props.formula)];
+			// }
+			
+			// KaTeX対応パッチ
 			case 'mathInline': {
-				return [h('code', token.props.formula)];
+				try {
+					const html = katex.renderToString(token.props.formula, {
+						throwOnError: false,
+						displayMode: false,
+					});
+					return [h('span', {
+						innerHTML: html,
+					})];
+				} catch (e) {
+					return [h('code', token.props.formula)];
+				}
 			}
 
 			case 'mathBlock': {
-				return [h('code', token.props.formula)];
+				try {
+					const html = katex.renderToString(token.props.formula, {
+						throwOnError: false,
+						displayMode: true,
+					});
+					return [h('div', {
+						innerHTML: html,
+					})];
+				} catch (e) {
+					return [h('code', token.props.formula)];
+				}
 			}
 
 			case 'search': {

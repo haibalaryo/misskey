@@ -1,8 +1,11 @@
+version: "3"
+
 services:
+
   web:
     # build: .
 
-    # ぎっとはぶ上のいめーじ
+    # Image over the github
     image: ghcr.io/haibalaryo/misskey:master
 
     restart: always
@@ -83,7 +86,7 @@ services:
 #      interval: 5s
 #      retries: 20
 
- meilisearch:
+  meilisearch:
    restart: always
    image: getmeili/meilisearch:v1.3.4
    environment:
