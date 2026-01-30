@@ -36,6 +36,9 @@ services:
       resources:
         limits:
           memory: 2G # コンテナ全体のメモリ上限
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1 # DNS直指定
 
   redis:
     restart: always
