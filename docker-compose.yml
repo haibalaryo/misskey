@@ -29,6 +29,13 @@ services:
     volumes:
       - ./files:/misskey/files
       - ./.config:/misskey/.config:ro
+    environment:
+      # Node.jsのヒープメモリ上限を制限
+      NODE_OPTIONS: "--max-old-space-size=1536"
+    deploy:
+      resources:
+        limits:
+          memory: 2G # コンテナ全体のメモリ上限
 
   redis:
     restart: always
