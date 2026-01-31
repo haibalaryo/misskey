@@ -31,11 +31,14 @@ services:
       - ./.config:/misskey/.config:ro
     environment:
       # Node.jsのヒープメモリ上限を制限
-      NODE_OPTIONS: "--max-old-space-size=1536"
-    deploy:
-      resources:
-        limits:
-          memory: 2G # コンテナ全体のメモリ上限
+      NODE_OPTIONS: "--max-old-space-size=3072"
+      JOB_CONCURRENCY: 16
+    healthcheck: # autoheal
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:3000/api/ping || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
     dns:
       - 8.8.8.8
       - 1.1.1.1 # DNS直指定
@@ -55,6 +58,7 @@ services:
   db:
     restart: always
     image: postgres:18-alpine
+    command: postgres -c max_connections=200
     networks:
       - internal_network
     env_file:
